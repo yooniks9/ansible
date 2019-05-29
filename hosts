@@ -1,0 +1,7 @@
+[vm]
+192.168.56.101
+
+[vm:vars]
+ansible_user=ubuntu
+ansible_private_key_file=~/.ssh/id_rsa
+ansible_port=22
