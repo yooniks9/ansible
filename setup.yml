@@ -2,3 +2,12 @@
 - hosts: vm
   gather_facts: False
   become: true
+  
+  pre_tasks:
+    - name: Update all packages to the latest version
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoclean: yes
+        autoremove: yes
+        force_apt_get: yes
