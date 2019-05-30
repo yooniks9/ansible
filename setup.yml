@@ -1,7 +1,7 @@
 ---
 - hosts: vm
   gather_facts: False
-  become: true
+  become: True
   
   pre_tasks:
     - name: Update all packages to the latest version
@@ -11,3 +11,7 @@
         autoclean: yes
         autoremove: yes
         force_apt_get: yes
+  
+  roles:
+    - { role: swapfile, swapfile_size: 1GB, swapfile_file: /swapfile, tags: [swapfile] }
+    - { role: shell, user: ubuntu, zsh_theme: tjkirch }
