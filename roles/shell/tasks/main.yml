@@ -1,7 +1,7 @@
 ---
 - name: Check is .zshrc exist?
   stat:
-    path: /home/{{ user }}/.zshrc
+    path: /home/{{ shell_user }}/.zshrc
   register: zshrc
 
 - name: Install Z shell
@@ -14,27 +14,27 @@
 - name: Download zsh installer
   git:
     repo: 'https://github.com/robbyrussell/oh-my-zsh.git'
-    dest: /home/{{ user }}/.oh-my-zsh
+    dest: /home/{{ shell_user }}/.oh-my-zsh
     update: no
   when: zshrc.stat.exists == False
 
-- name: Change ownership to {{ user }}
+- name: Change ownership to {{ shell_user }}
   file:
-    dest: /home/{{ user }}/.oh-my-zsh
-    owner: "{{ user }}"
-    group: "{{ user }}"
+    dest: /home/{{ shell_user }}/.oh-my-zsh
+    owner: "{{ shell_user }}"
+    group: "{{ shell_user }}"
     recurse: yes
   when: zshrc.stat.exists == False
 
 - name: Copy Zsh profiles
   template: 
     src: zshrc.j2 
-    dest: /home/{{ user }}/.zshrc
-    owner: "{{ user }}"
-    group: "{{ user }}"
+    dest: /home/{{ shell_user }}/.zshrc
+    owner: "{{ shell_user }}"
+    group: "{{ shell_user }}"
     mode : 0644
   when: zshrc.stat.exists == False
 
 - name: Change current user to Z shell
-  shell: chsh -s `which zsh` {{ user }}
+  shell: chsh -s `which zsh` {{ shell_user }}
   when: zshrc.stat.exists == False

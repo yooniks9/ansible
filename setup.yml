@@ -14,4 +14,4 @@
   
   roles:
     - { role: swapfile, swapfile_size: 1GB, swapfile_file: /swapfile, tags: [swapfile], swapfile_swappiness: 10, swapfile_vfs_cache_pressure: 50 }
-    - { role: shell, user: ubuntu, zsh_theme: tjkirch }
+    - { role: shell, shell_user: ubuntu, shell_theme: tjkirch }
