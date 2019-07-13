@@ -15,3 +15,4 @@
   roles:
     - { role: swapfile, swapfile_size: 1GB, swapfile_file: /swapfile, tags: [swapfile], swapfile_swappiness: 10, swapfile_vfs_cache_pressure: 50 }
     - { role: shell, shell_user: ubuntu, shell_theme: tjkirch }
+    - { role: docker, docker_compose_version: "1.24.0", docker_users: ubuntu }
