@@ -13,9 +13,9 @@
         force_apt_get: yes
   
   roles:
-    - { role: base, system_user: ubuntu }
+    - { role: base }
     - { role: swapfile, swapfile_size: 1GB }
-    - { role: shell, shell_user: ubuntu, shell_theme: tjkirch }
+    - { role: shell }
     - { role: letsencrypt }
     - { role: php }
-    - { role: docker, mysql_password: CHANG3M3@2019 }
+    - { role: docker }
