@@ -5,6 +5,7 @@
       - docker
       - docker-engine
     state: absent
+    force_apt_get: yes
 
 - name: Ensure dependencies are installed.
   apt:
@@ -12,6 +13,7 @@
       - apt-transport-https
       - ca-certificates
     state: present
+    force_apt_get: yes
 
 - name: Add Docker apt key.
   apt_key:
@@ -46,6 +48,7 @@
       - docker-ce-cli
       - containerd.io
     state: present
+    force_apt_get: yes
 
 - name: Ensure docker users are added to the docker group.
   user:
