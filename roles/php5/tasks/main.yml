@@ -1,0 +1,86 @@
+---
+- name: add certphpbot repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    
+- name: Install apts - php
+  apt:
+    name: 
+      - php5.6
+      - php5.6-fpm
+      - php5.6-cli
+      - php5.6-common
+      - php5.6-curl
+      - php5.6-dev
+      - php5.6-mysql
+      - php5.6-bcmath
+      - php5.6-bz2
+      - php5.6-intl
+      - php5.6-mbstring
+      - php5.6-mcrypt
+      - php5.6-redis
+      - php5.6-pdo
+      - php5.6-pgsql
+      - php5.6-soap
+      - php5.6-zip
+      - php5.6-gd
+      - php5.6-ldap
+      - php5.6-xml
+      - php5.6-xmlrpc
+      - php5.6-memcache
+      - php5.6-memcached
+      - libapache2-mod-php5.6
+    state: present
+    force_apt_get: yes
+
+- name: Disable apache2 php mods
+  apache2_module: 
+    name: php5.6
+    state: absent
+
+- name: Disable apache2 mpm_prefork mods
+  command: a2dismod mpm_prefork
+
+- name: Enable apache2 mpm_event mods
+  command: a2enmod mpm_event
+  notify: restart apache2
+
+- name: Enable apache2 http2 mods
+  apache2_module: 
+    name: http2
+    state: present
+
+- name: Enable apache2 proxy_fcgi mods
+  apache2_module: 
+    name: proxy_fcgi
+    state: present
+
+- name: Enable apache2 setenvif mods
+  apache2_module: 
+    name: setenvif
+    state: present
+
+- name: Enable php opcache mods
+  command: phpenmod opcache
+
+- name: Copy info.php to /var/www/html
+  template:
+    src: info.php.j2
+    dest: /var/www/html/info.php
+    owner: www-data
+    group: www-data
+    mode: 0664
+
+- name: Copy php.ini to /etc/php/5.6/fpm/
+  template:
+    src: php.ini.j2
+    dest: /etc/php/5.6/fpm/php.ini
+    owner: root
+    group: root
+    mode: 0664
+
+- name: Enable apache2 php-fpm mods
+  command: a2enconf php5.6-fpm
+  notify: 
+    - restart apache2
+    - restart php5.6-fpm
