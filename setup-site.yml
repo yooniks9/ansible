@@ -7,6 +7,7 @@
     subdomain: False
     ssl: True
     http2: False
+    email: support@example.com
 
   roles:
-    - { role: create-site }
+    - { role: apache-site }
