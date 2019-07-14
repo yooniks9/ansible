@@ -1,0 +1,21 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  
+  pre_tasks:
+    - name: Update all packages to the latest version
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoclean: yes
+        autoremove: yes
+        force_apt_get: yes
+  
+  roles:
+    - { role: base }
+    - { role: swapfile, swapfile_size: 1GB }
+    - { role: shell }
+    - { role: letsencrypt }
+    - { role: php }
+    - { role: docker }
