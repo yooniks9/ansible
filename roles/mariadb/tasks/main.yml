@@ -1,0 +1,11 @@
+---
+- name: Create mariadb templates
+  template:
+    src: mariadb.j2
+    dest: /srv/mariadb/docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
+
+- name: Create Mariadb Container
+  command: docker-compose -f /srv/mariadb/docker-compose.yml up -d

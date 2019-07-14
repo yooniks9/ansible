@@ -1,0 +1,9 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    mysql_password: JrAcMezBMAMeVJ7ZMpbv
+
+  roles:
+    - { role: mariadb }
