@@ -18,3 +18,5 @@ docker_apt_ignore_key_error: True
 docker_yum_repo_url: https://download.docker.com/linux/centos/docker-{{ docker_edition }}.repo
 docker_yum_repo_enable_edge: 0
 docker_yum_repo_enable_test: 0
+docker_users: ubuntu
+mysql_password: CHANG3M3@2019
