@@ -1,0 +1,68 @@
+---
+- name: create directory for mariadb if they don't exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+  with_items:
+    - /srv/mariadb
+    - /srv/mariadb/data
+    - /srv/mariadb/scripts
+
+- name: Create mariadb templates
+  template:
+    src: mariadb.j2
+    dest: /srv/mariadb/docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
+
+- name: Create mariadb readme
+  template:
+    src: mariadb-readme.j2
+    dest: /srv/mariadb/readme.md
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
+
+- name: Create mariadb backup scripts - hourly
+  template:
+    src: mariadb-hourly.j2
+    dest: /srv/mariadb/scripts/hourly.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: Create mariadb backup scripts - daily
+  template:
+    src: mariadb-daily.j2
+    dest: /srv/mariadb/scripts/daily.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: Create mariadb backup scripts - monthly
+  template:
+    src: mariadb-monthly.j2
+    dest: /srv/mariadb/scripts/monthly.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: Create memcached templates
+  template:
+    src: memcached.j2
+    dest: /srv/memcached-docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
+
+- name: Create redis templates
+  template:
+    src: redis.j2
+    dest: /srv/redis-docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
