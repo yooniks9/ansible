@@ -1,0 +1,12 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    domain: example.com
+    subdomain: False
+    ssl: True
+    http2: False
+
+  roles:
+    - { role: create-site }

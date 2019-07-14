@@ -1,0 +1,36 @@
+---
+- name: Create apache2 {{ domain }}.conf
+  template:
+    src: site.conf.j2
+    dest: /etc/apache2/sites-available/{{ domain }}.conf
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
+
+- name: Enable site {{ domain }}.conf
+  command: a2ensite {{ domain }}.conf
+  notify: restart apache2
+
+- name: Enable site {{ domain }}.conf without subdomain
+  command: certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default --agree-tos -m "{{ email }}" -d {{ domain }}
+  register: ssl_generated
+  when: 
+   - ssl == True
+   - subdomain == False
+
+- name: Enable site {{ domain }}.conf with subdomain
+  command: certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default --agree-tos -m "{{ email }}" -d {{ domain }} -d {{ subdomain }}
+  register: ssl_generated
+  when: 
+   - ssl == True
+   - subdomain != False
+
+- name: Update {{ domain }}.conf with letsencrypt ssl
+  template:
+    src: site-ssl.conf.j2
+    dest: /etc/apache2/sites-available/{{ domain }}.conf
+    owner: ubuntu
+    group: ubuntu
+    mode: 0664
+  when: ssl_generated
+  notify: restart apache2

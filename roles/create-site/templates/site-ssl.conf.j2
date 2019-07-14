@@ -1,0 +1,86 @@
+<VirtualHost *:80>
+    ServerName {{ domain }}
+    {% if subdomain != False %}
+    ServerAlias {{ subdomain }}
+    {% endif %}
+    ServerAdmin {{ email }}
+
+    DocumentRoot /var/www/{{ domain }}
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ domain }}-error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ domain }}-access.log combined
+
+    Alias /.well-known/acme-challenge/ "/var/www/webroot/.well-known/acme-challenge/"
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride ALL
+    </Directory>
+
+    <Directory /var/www/{{ domain }}>
+        Options FollowSymLinks MultiViews
+        AllowOverride ALL
+        Order allow,deny
+        Allow from all
+    </Directory>
+#RewriteEngine on
+#RewriteCond %{SERVER_NAME} ={{ domain }} [OR]
+#RewriteCond %{SERVER_NAME} =www.{{ domain }}
+#RewriteRule ^ https://www.{{ domain }}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+{% if http2 == True %}
+Protocols h2 http/1.1
+{% endif %}
+    ServerName {{ domain }}
+{% if subdomain != False %}
+ServerAlias {{ subdomain }}
+{% endif %}
+    ServerAdmin {{ email }}
+
+    DocumentRoot /var/www/{{ domain }}
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ domain }}-error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ domain }}-access.log combined
+
+    Alias /.well-known/acme-challenge/ "/var/www/webroot/.well-known/acme-challenge/"
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride ALL
+    </Directory>
+
+    <Directory /var/www/{{ domain }}>
+        Options FollowSymLinks MultiViews
+        AllowOverride ALL
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    <FilesMatch "\.(cgi|shtml|phtml|php)$">
+        SSLOptions +StdEnvVars
+    </FilesMatch>
+
+    <Directory /usr/lib/cgi-bin>
+        SSLOptions +StdEnvVars
+    </Directory>
+
+    <DirectoryMatch "/\.git">
+        Require all denied
+    </DirectoryMatch>
+
+    <FilesMatch "\.(json)$">
+        Require all denied
+    </FilesMatch>
+
+    <FilesMatch "\.(sql)$">
+        Require all denied
+    </FilesMatch>
+
+Include /etc/letsencrypt/options-ssl-apache.conf
+SSLCertificateFile /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/{{ domain }}/privkey.pem
+</VirtualHost>
+</IfModule>
