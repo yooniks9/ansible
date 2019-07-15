@@ -9,18 +9,20 @@
 
 - name: Enable site {{ domain }}.conf
   command: a2ensite {{ domain }}.conf
-  notify: restart apache2
+
+- name: restart apache2
+  service:
+    name: apache2
+    state: restarted
 
 - name: Enable site {{ domain }}.conf without subdomain
-  command: certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default --agree-tos -m "{{ email }}" -d {{ domain }}
-  register: ssl_generated
+  command: certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default --force-interactive --agree-tos -m "{{ email }}" -d {{ domain }}
   when: 
    - ssl == True
    - subdomain == False
 
 - name: Enable site {{ domain }}.conf with subdomain
-  command: certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default --agree-tos -m "{{ email }}" -d {{ domain }} -d {{ subdomain }}
-  register: ssl_generated
+  command: certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default --force-interactive --agree-tos -m "{{ email }}" -d {{ domain }} -d {{ subdomain }}
   when: 
    - ssl == True
    - subdomain != False
@@ -32,5 +34,5 @@
     owner: ubuntu
     group: ubuntu
     mode: 0664
-  when: ssl_generated
+  when: ssl == True
   notify: restart apache2
