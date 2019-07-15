@@ -4,9 +4,11 @@ services:
 
   db:
     container_name: mariadb
-    image: mariadb:latest
+    image: mariadb:10.2
     restart: always
     ports:
       - 3306:3306
+    volumes:
+      - ./data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: {{ mysql_password }}
