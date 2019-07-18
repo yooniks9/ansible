@@ -7,6 +7,14 @@
     group: www-data
     mode: 0775
 
+- name: Copy info.php to /var/www/{{ domain }}
+  template:
+    src: info.php.j2
+    dest: "/var/www/{{ domain }}/info.php"
+    owner: www-data
+    group: www-data
+    mode: 0664
+
 - name: Create apache2 {{ domain }}.conf
   template:
     src: site.conf.j2
