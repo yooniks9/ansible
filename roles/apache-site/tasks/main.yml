@@ -1,4 +1,12 @@
 ---
+- name: create directory for {{ domain }}
+  file:
+    path: "/var/www/{{ domain }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
+
 - name: Create apache2 {{ domain }}.conf
   template:
     src: site.conf.j2
