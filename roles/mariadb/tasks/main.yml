@@ -9,3 +9,8 @@
 
 - name: Create Mariadb Container
   command: docker-compose -f /srv/mariadb/docker-compose.yml up -d
+
+- name: Update motd
+  lineinfile:
+    path: /etc/motd
+    line: "Mysql Password: {{ mysql_password }}"
