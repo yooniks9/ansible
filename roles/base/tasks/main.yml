@@ -1,11 +1,11 @@
 ---
-- name: Add public key to authorized - roy,hsiang,rex
-  template:
-    src: authorized_keys.j2
-    dest: /home/ubuntu/.ssh/authorized_keys
-    owner: ubuntu
-    group: ubuntu
-    mode: 0600
+# - name: Add users public key to authorized
+#   template:
+#     src: authorized_keys.j2
+#     dest: /home/ubuntu/.ssh/authorized_keys
+#     owner: ubuntu
+#     group: ubuntu
+#     mode: 0600
     
 - name: Set timezone to Asia/Taipei
   timezone:
