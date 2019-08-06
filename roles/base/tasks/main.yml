@@ -1,31 +1,22 @@
 ---
-# - name: Add users public key to authorized
-#   template:
-#     src: authorized_keys.j2
-#     dest: /home/ubuntu/.ssh/authorized_keys
-#     owner: ubuntu
-#     group: ubuntu
-#     mode: 0600
+- name: Add users public key to authorized
+  template:
+    src: authorized_keys.j2
+    dest: /home/{{ system_user }}/.ssh/authorized_keys
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0600
     
 - name: Set timezone to Asia/Taipei
   timezone:
     name: Asia/Taipei
 
-- name: Update message of the day
-  template:
-    src: motd.j2
-    dest: /etc/motd
-    owner: root
-    group: root
-    mode: 0644
-
-- name: Install apts - zip,unzip,apache2,mysql-client
+- name: Install apts - software-properties-common,zip,unzip,mysql-client
   apt:
     name: 
       - zip
       - software-properties-common
       - unzip
-      - apache2
       - mysql-client
     state: present
     force_apt_get: yes
@@ -44,80 +35,3 @@
     owner: www-data
     group: www-data
     mode: 0775
-
-- name: Recursively change ownership of /etc/apache2/sites-available
-  file:
-    path: /etc/apache2/sites-available
-    state: directory
-    recurse: yes
-    owner: ubuntu
-    group: ubuntu
-    mode: 0775
-
-- name: Recursively change ownership of /etc/apache2/sites-enabled
-  file:
-    path: /etc/apache2/sites-enabled
-    state: directory
-    recurse: yes
-    owner: ubuntu
-    group: ubuntu
-    mode: 0775
-
-- name: Enable apache2 ssl mods
-  apache2_module: 
-    name: ssl
-    state: present
-
-- name: Enable apache2 rewrite mods
-  apache2_module: 
-    name: rewrite
-    state: present
-
-- name: Enable apache2 headers mods
-  apache2_module: 
-    name: headers
-    state: present
-
-- name: Enable apache2 proxy mods
-  apache2_module: 
-    name: proxy
-    state: present
-
-- name: Enable apache2 proxy_http mods
-  apache2_module: 
-    name: proxy_http
-    state: present
-
-- name: Enable apache2 proxy_balancer mods
-  apache2_module: 
-    name: proxy_balancer
-    state: present
-
-- name: Enable apache2 lbmethod_byrequests mods
-  apache2_module: 
-    name: lbmethod_byrequests
-    state: present
-
-- name: Copy apache2 dir.conf
-  template:
-    src: dir.conf.j2
-    dest: /etc/apache2/mods-enabled/dir.conf
-    owner: www-data
-    group: www-data
-    mode: 0775
-
-- name: Create a /var/www/webroot directory if it does not exist
-  file:
-    path: /var/www/webroot
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: 0775
-
-- name: Copy apache2 example.conf
-  template:
-    src: example.conf.j2
-    dest: /etc/apache2/sites-available/example.conf
-    owner: ubuntu
-    group: ubuntu
-    mode: 0664
