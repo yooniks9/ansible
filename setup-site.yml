@@ -3,11 +3,11 @@
   gather_facts: False
   become: True
   vars:
-    domain: example.com
+    domain: YOURDOMAINNAME.com
     subdomain: False
     ssl: True
-    http2: False
-    email: support@example.com
+    http2: True
+    email: support@YOURDOMAINNAME.com
 
   roles:
     - { role: apache-site }
