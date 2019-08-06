@@ -55,7 +55,7 @@
     name: "{{ item }}"
     groups: docker
     append: true
-  with_items: "{{ docker_users }}"
+  with_items: "{{ system_user }}"
 
 - name: Check current docker-compose version.
   command: docker-compose --version

@@ -14,8 +14,8 @@
   template:
     src: options-ssl-apache.conf.j2
     dest: /etc/letsencrypt/options-ssl-apache.conf
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0664
 
 - name: Update message of the day

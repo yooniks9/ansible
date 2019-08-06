@@ -19,8 +19,8 @@
   template:
     src: site.conf.j2
     dest: /etc/apache2/sites-available/{{ domain }}.conf
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0664
 
 - name: Enable site {{ domain }}.conf
@@ -47,8 +47,8 @@
   template:
     src: site-ssl.conf.j2
     dest: /etc/apache2/sites-available/{{ domain }}.conf
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0664
   when: ssl == True
   notify: restart apache2

@@ -11,8 +11,8 @@
     path: /etc/apache2/sites-available
     state: directory
     recurse: yes
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0775
 
 - name: Recursively change ownership of /etc/apache2/sites-enabled
@@ -20,8 +20,8 @@
     path: /etc/apache2/sites-enabled
     state: directory
     recurse: yes
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0775
 
 - name: Enable apache2 ssl mods
@@ -80,6 +80,6 @@
   template:
     src: example.conf.j2
     dest: /etc/apache2/sites-available/example.conf
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0664

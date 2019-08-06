@@ -2,6 +2,8 @@
 - hosts: vm
   gather_facts: False
   become: True
+  vars:
+    system_user: 'ubuntu'
   
   pre_tasks:
     - name: Update all packages to the latest version

@@ -19,4 +19,5 @@ docker_yum_repo_url: https://download.docker.com/linux/centos/docker-{{ docker_e
 docker_yum_repo_enable_edge: 0
 docker_yum_repo_enable_test: 0
 docker_users: ubuntu
+system_user: ubuntu
 mysql_password: CHANG3M3@2019

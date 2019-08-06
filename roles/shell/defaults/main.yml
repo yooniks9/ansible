@@ -1,3 +1,3 @@
 ---
-shell_user: ubuntu
+system_user: ubuntu
 shell_theme: tjkirch
