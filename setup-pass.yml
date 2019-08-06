@@ -19,8 +19,8 @@
         regexp: '#PermitEmptyPasswords no'
         replace: 'PermitEmptyPasswords no'
 
-    - name: update password - {{user_name}}
-      user: name={{user_name}} update_password=always password={{ user_pass | password_hash('sha512') }}
+    - name: update password - {{ user_name }}
+      user: name={{ user_name }} update_password=always password={{ user_pass | password_hash('sha512') }}
 
     - name: restart sshd
       service:
