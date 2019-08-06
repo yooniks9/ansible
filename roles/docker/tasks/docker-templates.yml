@@ -20,6 +20,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
+    force: no
 
 - name: Create mariadb readme
   template:
@@ -28,6 +29,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
+    force: no
 
 - name: Create mariadb backup scripts - hourly
   template:
@@ -36,6 +38,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0775
+    force: no
 
 - name: Create mariadb backup scripts - daily
   template:
@@ -44,6 +47,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0775
+    force: no
 
 - name: Create mariadb backup scripts - monthly
   template:
@@ -52,6 +56,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0775
+    force: no
 
 - name: Create memcached templates
   template:
@@ -60,6 +65,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
+    force: no
 
 - name: Create redis templates
   template:
@@ -68,3 +74,4 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
+    force: no

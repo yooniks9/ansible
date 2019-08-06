@@ -17,6 +17,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
+    force: no
 
 - name: Update message of the day
   template:
@@ -25,3 +26,4 @@
     owner: root
     group: root
     mode: 0644
+    force: no

@@ -35,3 +35,11 @@
     owner: www-data
     group: www-data
     mode: 0775
+
+- name: Create Motd file
+  file:
+    path: /etc/motd
+    state: touch
+    owner: root
+    group: root
+    mode: 0644
