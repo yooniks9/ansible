@@ -4,24 +4,22 @@
   become: True
   vars:
     user_name: 'ubuntu'
-    user_pass: 'CHANGETHISPASSWORD'
+    user_pass: 'CHANGEME'
     
   tasks:
     - name: Enable Password for SSH
       replace:
         path: /etc/ssh/sshd_config
-        after: '# To disable tunneled clear text passwords, change to no here!'
         regexp: 'PasswordAuthentication no'
         replace: 'PasswordAuthentication yes'
 
     - name: Disallow Empty Password
       replace:
         path: /etc/ssh/sshd_config
-        after: '# To disable tunneled clear text passwords, change to no here!'
         regexp: '#PermitEmptyPasswords no'
         replace: 'PermitEmptyPasswords no'
 
-    - name: update password
+    - name: update password - {{user_name}}
       user: name={{user_name}} update_password=always password={{ user_pass | password_hash('sha512') }}
 
     - name: restart sshd
