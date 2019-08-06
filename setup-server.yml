@@ -16,6 +16,8 @@
     - { role: base }
     - { role: swapfile, swapfile_size: 1GB }
     - { role: shell }
-    - { role: letsencrypt }
+    - { role: apache }
     - { role: php }
-    - { role: docker }
+    - { role: docker, ansible_distribution_release: bionic }
+    - { role: mariadb, mysql_password: "MYSQLPASSWORD" }
+    - { role: letsencrypt }
