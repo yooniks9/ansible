@@ -4,6 +4,11 @@
   become: True
   vars:
     system_user: 'ubuntu'
+    domain: YOURDOMAINNAME.com
+    subdomain: www.YOURDOMAINNAME.com
+    ssl: True
+    http2: True
+    email: support@YOURDOMAINNAME.com
   
   pre_tasks:
     - name: Update all packages to the latest version
@@ -23,3 +28,4 @@
     - { role: docker, ansible_distribution_release: bionic }
     - { role: mariadb, mysql_password: "MYSQLPASSWORD" }
     - { role: letsencrypt }
+    - { role: apache-site }
