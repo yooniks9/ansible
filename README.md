@@ -25,3 +25,15 @@ Docker-compose location : /srv
 
 You can override the default Mariadb password on docker-compose.yml by
 - { role: docker, mysql_password: CHANG3M3@2019 }
+
+## ansible-playbook cli
+
+#### prompt for password
+```
+ansible-playbook playbook.yml --user=username --ask-sudo-pass
+```
+
+#### include password on cli
+```
+ansible-playbook playbook.yml --user=username --extra-vars "ansible_sudo_pass=yourPassword"
+```
