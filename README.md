@@ -13,7 +13,7 @@ You can override it by
 
 #### SHELL - oh-my-zsh
 You can override it by
-- { role: shell, shell_user: ubuntu, shell_theme: tjkirch }
+- { role: shell, system_user: ubuntu, shell_theme: tjkirch }
 
 #### PHP - Switch within php5 or php7.2
 PHP option (choose one):
