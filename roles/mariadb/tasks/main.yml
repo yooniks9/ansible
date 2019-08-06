@@ -3,9 +3,10 @@
   template:
     src: mariadb.j2
     dest: /srv/mariadb/docker-compose.yml
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0664
+    force: yes
 
 - name: Create Mariadb Container
   command: docker-compose -f /srv/mariadb/docker-compose.yml up -d
