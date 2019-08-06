@@ -17,3 +17,11 @@
     owner: ubuntu
     group: ubuntu
     mode: 0664
+
+- name: Update message of the day
+  template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: 0644
