@@ -67,7 +67,6 @@
     owner: www-data
     group: www-data
     mode: 0664
-    force: no
 
 - name: Create a /var/www/webroot directory if it does not exist
   file:
