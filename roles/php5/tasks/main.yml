@@ -33,6 +33,33 @@
     state: present
     force_apt_get: yes
 
+- name: Disable apache2 php mods
+  apache2_module: 
+    name: php5.6
+    state: absent
+  when: php_mod == "fpm"
+
+- name: Disable apache2 mpm_prefork mods
+  command: a2dismod mpm_prefork
+  when: php_mod == "fpm"
+
+- name: Enable apache2 mpm_event mods
+  command: a2enmod mpm_event
+  when: php_mod == "fpm"
+  notify: restart apache2
+
+- name: Enable apache2 proxy_fcgi mods
+  apache2_module: 
+    name: proxy_fcgi
+    state: present
+  when: php_mod == "fpm"
+
+- name: Enable apache2 setenvif mods
+  apache2_module: 
+    name: setenvif
+    state: present
+  when: php_mod == "fpm"
+
 - name: Enable php opcache mods
   command: phpenmod opcache
 
@@ -44,12 +71,17 @@
     group: www-data
     mode: 0664
 
-- name: Copy php.ini to /etc/php/5.6/apache2/
+- name: Copy php.ini to /etc/php/5.6/{{ php_mod }}/
   template:
     src: php.ini.j2
-    dest: /etc/php/5.6/apache2/php.ini
+    dest: /etc/php/5.6/{{ php_mod }}/php.ini
     owner: root
     group: root
     mode: 0664
+
+- name: Enable apache2 php-fpm mods
+  command: a2enconf php5.6-fpm
+  when: php_mod == "fpm"
   notify: 
     - restart apache2
+    - restart php5.6-fpm
