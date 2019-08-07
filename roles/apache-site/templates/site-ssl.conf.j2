@@ -31,9 +31,6 @@
 
 <IfModule mod_ssl.c>
 <VirtualHost *:443>
-{% if http2 == True %}
-Protocols h2 http/1.1
-{% endif %}
     ServerName {{ domain }}
 {% if subdomain != False %}
 ServerAlias {{ subdomain }}

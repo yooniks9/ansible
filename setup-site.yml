@@ -6,7 +6,6 @@
     domain: YOURDOMAINNAME.com
     subdomain: False
     ssl: True
-    http2: True
     email: support@YOURDOMAINNAME.com
 
   roles:

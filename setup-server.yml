@@ -7,7 +7,6 @@
     domain: YOURDOMAINNAME.com
     subdomain: www.YOURDOMAINNAME.com
     ssl: True
-    http2: True
     email: support@YOURDOMAINNAME.com
   
   pre_tasks:
