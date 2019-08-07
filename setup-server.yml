@@ -4,6 +4,10 @@
   become: True
   vars:
     system_user: 'ubuntu'
+    ansible_distribution_release: bionic 
+    swapfile_size: 1GB 
+    php_mod: "apache2"
+    mysql_password: "MYSQLPASSWORD"
     domain: YOURDOMAINNAME.com
     subdomain: www.YOURDOMAINNAME.com
     ssl: True
@@ -20,11 +24,11 @@
   
   roles:
     - { role: base }
-    - { role: swapfile, swapfile_size: 1GB }
+    - { role: swapfile }
     - { role: shell }
     - { role: apache }
     - { role: php }
-    - { role: docker, ansible_distribution_release: bionic }
-    - { role: mariadb, mysql_password: "MYSQLPASSWORD" }
+    - { role: docker }
+    - { role: mariadb }
     - { role: letsencrypt }
     - { role: apache-site }

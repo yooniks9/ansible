@@ -1,6 +1,18 @@
 # ansible-lamp-docker
 This Ansible playbook is design for Ubuntu 18.04 LTS
 
+## vars
+
+- system_user: 'ubuntu'
+- ansible_distribution_release: (xenial or bionic)
+- swapfile_size: 1GB 
+- php_mod: (apache2 or fpm)
+- mysql_password: "MYSQLPASSWORD"
+- domain: YOURDOMAINNAME.com
+- subdomain: ( www.YOURDOMAINNAME.com or False )
+- ssl: ( True or False )
+- email: support@YOURDOMAINNAME.com
+
 ## roles
 
 #### BASE - default user is ubuntu
