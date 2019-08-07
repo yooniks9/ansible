@@ -1,5 +1,4 @@
 ---
 email: support@YOURDOMAINNAME.com
 ssl: True
-http2: False
 subdomain: False

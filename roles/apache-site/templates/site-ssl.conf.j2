@@ -1,8 +1,8 @@
 <VirtualHost *:80>
     ServerName {{ domain }}
-    {% if subdomain != False %}
-    ServerAlias {{ subdomain }}
-    {% endif %}
+{% if subdomain != False %}
+ServerAlias {{ subdomain }}
+{% endif %}
     ServerAdmin {{ email }}
 
     DocumentRoot /var/www/{{ domain }}
