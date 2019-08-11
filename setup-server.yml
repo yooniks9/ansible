@@ -28,6 +28,7 @@
     - { role: shell }
     - { role: apache }
     - { role: php }
+    - { role: composer }
     - { role: docker }
     - { role: mariadb }
     - { role: letsencrypt }
