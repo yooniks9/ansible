@@ -40,6 +40,11 @@ You can override the default Mariadb password on docker-compose.yml by
 
 ## ansible-playbook cli
 
+#### install sshpass for mac
+```
+brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+```
+
 #### prompt for password
 ```
 ansible-playbook playbook.yml --user=username --ask-sudo-pass
