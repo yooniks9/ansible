@@ -1,4 +1,12 @@
 ---
+- name: create .ssh directory if they don't exist
+  file:
+    path: /home/{{ system_user }}/.ssh
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0700
+
 - name: Add users public key to authorized
   template:
     src: authorized_keys.j2
@@ -43,3 +51,11 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Add user to sudoer
+  template:
+    src: init-user.j2
+    dest: /etc/sudoers.d/{{ system_user }}-init-user
+    owner: "root"
+    group: "root"
+    mode: 0660
