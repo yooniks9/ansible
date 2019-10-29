@@ -6,3 +6,4 @@ ansible_port=22
 ansible_user=ubuntu
 ansible_private_key_file=~/.ssh/id_rsa
 #ansible_ssh_pass=SOMEPASSWORD
+#ansible_sudo_pass=ubuntu
