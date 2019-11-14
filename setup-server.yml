@@ -3,16 +3,16 @@
   gather_facts: False
   become: True
   vars:
-    system_user: 'ubuntu'
-    ansible_distribution_release: bionic 
-    swapfile_size: 1GB 
+    system_user: "ubuntu"
+    ansible_distribution_release: bionic
+    swapfile_size: 2GB
     php_mod: "apache2"
-    mysql_password: "MYSQLPASSWORD"
+    mysql_password: "CHANGEME"
     domain: YOURDOMAINNAME.com
     subdomain: www.YOURDOMAINNAME.com
     ssl: True
     email: support@YOURDOMAINNAME.com
-  
+
   pre_tasks:
     - name: Update all packages to the latest version
       apt:
@@ -21,7 +21,7 @@
         autoclean: yes
         autoremove: yes
         force_apt_get: yes
-  
+
   roles:
     - { role: base }
     - { role: swapfile }
@@ -32,4 +32,5 @@
     - { role: docker }
     - { role: mariadb }
     - { role: letsencrypt }
+    - { role: nodejs, ansible_os_family: Debian }
     - { role: apache-site }
