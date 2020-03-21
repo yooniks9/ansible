@@ -12,6 +12,8 @@
     - /srv/mariadb
     - /srv/mariadb/data
     - /srv/mariadb/scripts
+    - /srv/drone/
+    - /srv/drone/data
 
 - name: Create mariadb templates
   template:
@@ -61,7 +63,7 @@
 - name: Create memcached templates
   template:
     src: memcached.j2
-    dest: /srv/memcached/memcached-docker-compose.yml
+    dest: /srv/memcached/docker-compose.yml
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
@@ -70,7 +72,34 @@
 - name: Create redis templates
   template:
     src: redis.j2
-    dest: /srv/redis/redis-docker-compose.yml
+    dest: /srv/redis/docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+    
+- name: Create drone templates
+  template:
+    src: drone.j2
+    dest: /srv/drone/docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: Create drone env
+  template:
+    src: drone.env.j2
+    dest: /srv/drone/.env
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: Create drone cicd templates(laravel)
+  template:
+    src: drone.yml.j2
+    dest: /srv/drone/laravel.drone.yml
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
