@@ -7,7 +7,7 @@ docker_service_state: started
 docker_service_enabled: true
 docker_restart_handler_state: restarted
 docker_install_compose: true
-docker_compose_version: "1.24.0"
+docker_compose_version: "1.25.4"
 docker_compose_path: /usr/local/bin/docker-compose
 docker_apt_release_channel: stable
 docker_apt_arch: amd64
