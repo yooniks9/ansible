@@ -58,8 +58,7 @@
   apache2_module: 
     name: lbmethod_byrequests
     state: present
-  notify: restart apache2
-
+    
 - name: Copy apache2 dir.conf
   template:
     src: dir.conf.j2
@@ -84,3 +83,23 @@
     group: "{{ system_user }}"
     mode: 0664
     force: no
+    
+- name: set default folder groups of /var/www
+  shell: setfacl -R -m g:www-data:rwx /var/www
+    
+- name: set folder permission following parent (/var/www)
+  shell: chmod -R g+s /var/www
+  
+- name: change apache2 default user - {{system_user}}
+  replace:
+    path: /etc/apache2/envvars
+    regexp: 'export APACHE_RUN_USER=www-data'
+    replace: 'export APACHE_RUN_USER={{system_user}}'
+    
+- name: make default group user www-data write-able (775)
+  blockinfile:
+    path: /etc/apache2/envvars
+    insertafter: EOF
+    marker: "# umask 002 to create files with 0664 and folders with 0775"
+    block: umask 002
+  notify: restart apache2
