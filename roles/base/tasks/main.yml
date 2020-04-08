@@ -14,6 +14,22 @@
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0600
+
+- name: (root)create .ssh directory if they don't exist
+  file:
+    path: /root/.ssh
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0700
+   
+- name: (root)Add users public key to authorized
+  template:
+    src: authorized_keys.j2
+    dest: /root/.ssh/authorized_keys
+    owner: "root"
+    group: "root"
+    mode: 0600
     
 - name: Set timezone to Asia/Taipei
   timezone:
