@@ -5,7 +5,7 @@
   vars:
     system_user: "ubuntu"
   tasks:
-    - name: Before Ansible 2.3, option 'dest', 'destfile' or 'name' was used instead of 'path'
+    - name: change apache2 default user - {{system_user}}
       replace:
         path: /etc/apache2/envvars
         regexp: 'export APACHE_RUN_USER=www-data'

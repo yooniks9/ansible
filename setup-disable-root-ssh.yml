@@ -1,0 +1,16 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  
+  tasks:
+    - name: Disable Root ssh connection
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: "PermitRootLogin yes"
+        replace: "PermitRootLogin no"
+
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
