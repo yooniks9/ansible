@@ -26,3 +26,11 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Recursively change ownership of /etc/letsencrypt
+  file:
+    path: /etc/letsencrypt
+    state: directory
+    recurse: yes
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
