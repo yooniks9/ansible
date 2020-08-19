@@ -50,8 +50,8 @@
     path: /srv
     state: directory
     recurse: yes
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
     mode: 0775
     
 - name: append {{ system_user }} to www-data group.
