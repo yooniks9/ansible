@@ -1,0 +1,85 @@
+---
+- name: add php repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+
+- name: Install apts - php
+  apt:
+    name: 
+      - php7.3
+      - php7.3-cli
+      - php7.3-fpm
+      - php7.3-common
+      - php7.3-curl
+      - php7.3-dev
+      - php7.3-mysql
+      - php7.3-bcmath
+      - php7.3-bz2
+      - php7.3-intl
+      - php7.3-mbstring
+      - php7.3-redis
+      - php7.3-pgsql
+      - php7.3-soap
+      - php7.3-zip
+      - php7.3-gd
+      - php7.3-ldap
+      - php7.3-xml
+      - php7.3-xmlrpc
+      - php7.3-memcache
+      - php7.3-memcached
+      - libapache2-mod-php7.3
+    state: present
+    force_apt_get: yes
+
+- name: Disable apache2 php mods
+  apache2_module: 
+    name: php7.3
+    state: absent
+  when: php_mod == "fpm"
+
+- name: Disable apache2 mpm_prefork mods
+  command: a2dismod mpm_prefork
+  when: php_mod == "fpm"
+
+- name: Enable apache2 mpm_event mods
+  command: a2enmod mpm_event
+  when: php_mod == "fpm"
+  notify: restart apache2
+
+- name: Enable apache2 proxy_fcgi mods
+  apache2_module: 
+    name: proxy_fcgi
+    state: present
+  when: php_mod == "fpm"
+
+- name: Enable apache2 setenvif mods
+  apache2_module: 
+    name: setenvif
+    state: present
+  when: php_mod == "fpm"
+
+- name: Enable php opcache mods
+  command: phpenmod opcache
+
+- name: Copy info.php to /var/www/html
+  template:
+    src: info.php.j2
+    dest: /var/www/html/info.php
+    owner: www-data
+    group: www-data
+    mode: 0664
+
+- name: Copy php.ini to /etc/php/7.3/{{ php_mod }}/
+  template:
+    src: php.ini.j2
+    dest: /etc/php/7.3/{{ php_mod }}/php.ini
+    owner: root
+    group: root
+    mode: 0664
+
+- name: Enable apache2 php-fpm mods
+  command: a2enconf php7.3-fpm
+  when: php_mod == "fpm"
+  notify: 
+    - restart apache2
+    - restart php7.3-fpm
