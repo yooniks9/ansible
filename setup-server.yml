@@ -33,6 +33,8 @@
     - { role: shell }
     - { role: apache }
     - { role: php }
+    # - { role: php5 }
+    # - { role: php73 }
     - { role: composer }
     - { role: docker }
     - { role: mariadb }
