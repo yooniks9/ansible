@@ -5,7 +5,7 @@ services:
   cache:
     container_name: memcached
     image: memcached:latest
-    restart: always
+    restart: unless-stopped
     environment:
       TZ: "Asia/Taipei"
     ports:

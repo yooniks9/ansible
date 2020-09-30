@@ -5,7 +5,7 @@ services:
   drone-server:
     container_name: drone_server
     image: drone/drone:1
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./data:/data
     ports:
@@ -22,7 +22,7 @@ services:
   drone-agent:
     container_name: drone_agent
     image: drone/agent:1
-    restart: always
+    restart: unless-stopped
     depends_on:
       - drone-server
     volumes:
