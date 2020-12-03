@@ -78,3 +78,9 @@
     mode: 0755
 
 - import_tasks: docker-templates.yml
+
+- name: Create check repair service cronjob - docker
+  cron:
+    name: Check & Repair docker service every 5 mins
+    job: "/srv/scripts/check-repair-docker.sh  > /dev/null 2>&1"
+    minute: "*/5"

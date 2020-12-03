@@ -103,3 +103,9 @@
     marker: "# umask 002 to create files with 0664 and folders with 0775"
     block: umask 002
   notify: restart apache2
+
+- name: Create check repair service cronjob - apache2
+  cron:
+    name: Check & Repair apache2 service every 5 mins
+    job: "/srv/scripts/check-repair-apache2.sh  > /dev/null 2>&1"
+    minute: "*/5"

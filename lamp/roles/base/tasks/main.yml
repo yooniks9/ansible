@@ -45,6 +45,35 @@
     state: present
     force_apt_get: yes
 
+- name: Create /srv/logs directory
+  file:
+    path: /srv/logs
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+
+- name: Create /srv/scripts directory
+  file:
+    path: /srv/scripts
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+    
+- name: Create check repair services scripts
+  template:
+    src: "{{ item }}.j2"
+    dest: "/srv/scripts/{{ item }}"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+  with_items:
+    - check-repair-apache2.sh
+    - check-repair-docker.sh
+    - check-repair-mysql.sh
+    - check-repair-nginx.sh
+
 - name: Recursively change ownership of /srv
   file:
     path: /srv
