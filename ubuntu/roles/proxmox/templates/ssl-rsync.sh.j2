@@ -1,0 +1,11 @@
+#!/bin/bash
+ user="ubuntu"
+ logs="/home/$user/logs"
+ fulldate=$(date +"%c")
+ rsync -rave "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/ubuntu/.ssh/letsencrypt.pem" root@192.168.2.101:/etc/letsencrypt /etc/
+ if [ "$?" -eq "0" ]
+ then
+  echo "[Letsencrypt] sync is completed on $fulldate" >> $logs/letencrypt-sync.log
+ else
+  echo "[Letsencrypt] sync has failed on $fulldate" >> $logs/letencrypt-sync.log
+ fi

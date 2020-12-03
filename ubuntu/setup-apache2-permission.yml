@@ -1,0 +1,24 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    system_user: "ubuntu"
+  tasks:
+    - name: change apache2 default user - {{system_user}}
+      replace:
+        path: /etc/apache2/envvars
+        regexp: 'export APACHE_RUN_USER=www-data'
+        replace: 'export APACHE_RUN_USER={{system_user}}'
+      
+    - name: make default group user www-data write-able (775)
+      blockinfile:
+        path: /etc/apache2/envvars
+        insertafter: EOF
+        marker: "# umask 002 to create files with 0664 and folders with 0775"
+        block: umask 002
+          
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted

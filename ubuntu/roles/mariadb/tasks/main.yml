@@ -1,0 +1,30 @@
+---
+- name: Create mariadb templates
+  template:
+    src: mariadb.j2
+    dest: /srv/mariadb/docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+
+- name: Create Mariadb Container
+  command: docker-compose -f /srv/mariadb/docker-compose.yml up -d
+
+- name: Check that the motd exists
+  stat:
+    path: /etc/motd
+  register: motd_file
+
+- name: create motd
+  file:
+    path: /etc/motd
+    owner: root
+    group: root
+    mode: '0644'
+    state: touch
+  when: not motd_file.stat.exists
+
+- name: Update motd
+  lineinfile:
+    path: /etc/motd
+    line: "Mysql Password: {{ mysql_password }}"

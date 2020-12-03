@@ -1,0 +1,28 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    user_name: "ubuntu"
+    user_pass: "CHANGEME"
+
+  tasks:
+    - name: Enable Password for SSH
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: "PasswordAuthentication no"
+        replace: "PasswordAuthentication yes"
+
+    - name: Disallow Empty Password
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: "#PermitEmptyPasswords no"
+        replace: "PermitEmptyPasswords no"
+
+    - name: update password - {{ user_name }}
+      user: name={{ user_name }} update_password=always password={{ user_pass | password_hash('sha512') }}
+
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted

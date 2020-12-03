@@ -1,0 +1,12 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    domain: YOURDOMAINNAME.com
+    subdomain: False
+    ssl: True
+    email: support@YOURDOMAINNAME.com
+
+  roles:
+    - { role: apache-site }

@@ -1,0 +1,32 @@
+---
+- name: create .scripts directory if they don't exist
+  file:
+    path: /home/{{ system_user }}/.scripts
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+
+- name: Copy cronjob let's encrypt scripts
+  template:
+    src: ssl-rsync.sh.j2
+    dest: /home/{{ system_user }}/.scripts/ssl-rsync.sh
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+
+- name: Copy cronjob let's encrypt scripts
+  template:
+    src: letsencrypt.pem.j2
+    dest: /home/{{ system_user }}/.ssh/letsencrypt.pem
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0600
+
+- name: auto sync let'sencrypt certs
+  cron:
+    name: "rsync all certs"
+    minute: "55"
+    hour: "23"
+    user: root
+    job: "/home/{{ system_user }}/.scripts/ssl-rsync.sh > /dev/null 2>&1"
