@@ -4,11 +4,11 @@
   become: True
   vars:
     system_user: "ubuntu"
-    user_pass: "CHANGEME"
+    user_pass: "nvsZf8GrYFpGfDUmQ"
     ansible_distribution_release: bionic
     swapfile_size: 2GB
     php_mod: "apache2"
-    mysql_password: "CHANGEME"
+    mysql_password: "7XD4-1A0hb-zw5-SQL"
     domain: YOURDOMAINNAME.com
     subdomain: www.YOURDOMAINNAME.com
     ssl: True
@@ -32,13 +32,13 @@
     - { role: swapfile }
     - { role: shell }
     - { role: apache }
-    - { role: php }
+    # - { role: php }
     # - { role: php5 }
-    # - { role: php73 }
+    - { role: php73 }
     - { role: composer }
     - { role: docker }
-    - { role: mariadb }
-    - { role: letsencrypt }
-    - { role: nodejs, ansible_os_family: Debian }
+    # - { role: mariadb }
+    # - { role: letsencrypt }
+    # - { role: nodejs, ansible_os_family: Debian }
     # - { role: proxmox }
     # - { role: apache-site }
