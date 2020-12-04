@@ -1,0 +1,18 @@
+#!/bin/sh
+# Create logs directory
+logs="/srv/logs"
+
+# System time variables (DO NOT CHANGE)
+fulldate=$(date +"%c")
+
+# Check & repair docker services
+ps auxw | grep /usr/bin/docker | grep -v grep > /dev/null
+
+if [ $? != 0 ]
+then
+	/etc/init.d/docker restart > /dev/null
+	echo "[docker] service is down: $fulldate" >> $logs/services-status.log
+fi
+
+# Wake up Docker (sometime it auto went idle)
+/usr/bin/docker ps -a > /dev/null

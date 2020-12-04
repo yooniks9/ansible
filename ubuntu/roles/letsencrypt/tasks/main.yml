@@ -34,3 +34,11 @@
     recurse: yes
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
+
+- name: Create check repair service cronjob - apache-ssl
+  cron:
+    name: Schedule reload apache2 on Sunday for Let's encrypt SSL update
+    job: "/srv/scripts/schedule-reload-apache2.sh > /dev/null 2>&1"
+    weekday: "0"
+    minute: "0"
+    hour: "0"

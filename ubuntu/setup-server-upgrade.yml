@@ -1,0 +1,14 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    system_user: ubuntu
+    apache: True
+    docker: True
+    nginx: False
+    mysql: False
+    apache_ssl: True
+        
+  roles:
+    - { role: upgrade }

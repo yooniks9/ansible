@@ -1,0 +1,67 @@
+---
+- name: Create /srv/logs directory
+  file:
+    path: /srv/logs
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+
+- name: Create /srv/scripts directory
+  file:
+    path: /srv/scripts
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+    
+- name: Create check repair services scripts
+  template:
+    src: "{{ item }}.j2"
+    dest: "/srv/scripts/{{ item }}"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+  with_items:
+    - check-repair-apache2.sh
+    - check-repair-docker.sh
+    - check-repair-mysql.sh
+    - check-repair-nginx.sh
+    - schedule-reload-apache2.sh
+
+- name: Create check repair service cronjob - apache2
+  cron:
+    name: Check & Repair apache2 service every 5 mins
+    job: "/srv/scripts/check-repair-apache2.sh > /dev/null 2>&1"
+    minute: "*/5"
+  when: apache == True
+
+- name: Create check repair service cronjob - docker
+  cron:
+    name: Check & Repair docker service every 5 mins
+    job: "/srv/scripts/check-repair-docker.sh > /dev/null 2>&1"
+    minute: "*/5"
+  when: docker == True
+
+- name: Create check repair service cronjob - mysql
+  cron:
+    name: Check & Repair mysql service every 5 mins
+    job: "/srv/scripts/check-repair-mysql.sh > /dev/null 2>&1"
+    minute: "*/5"
+  when: mysql == True
+
+- name: Create check repair service cronjob - nginx
+  cron:
+    name: Check & Repair nginx service every 5 mins
+    job: "/srv/scripts/check-repair-nginx.sh > /dev/null 2>&1"
+    minute: "*/5"
+  when: nginx == True
+
+- name: Create check repair service cronjob - apache-ssl
+  cron:
+    name: Schedule reload apache2 on Sunday for Let's encrypt SSL update
+    job: "/srv/scripts/schedule-reload-apache2.sh > /dev/null 2>&1"
+    weekday: "0"
+    minute: "0"
+    hour: "0"
+  when: apache_ssl == True
