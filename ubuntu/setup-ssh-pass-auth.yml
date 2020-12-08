@@ -3,8 +3,8 @@
   gather_facts: False
   become: True
   vars:
-    user_name: "ubuntu"
-    user_pass: "CHANGEME"
+    USER_NAME: "CHANGEME_USERNAME"
+    USER_PASS: "CHANGEME_PASSWORD"
 
   tasks:
     - name: Enable Password for SSH
@@ -19,8 +19,11 @@
         regexp: "#PermitEmptyPasswords no"
         replace: "PermitEmptyPasswords no"
 
-    - name: update password - {{ user_name }}
-      user: name={{ user_name }} update_password=always password={{ user_pass | password_hash('sha512') }}
+    - name: update password - {{ USER_NAME }}
+      user: 
+        name: "{{ USER_NAME }}"
+        update_password: always 
+        password: "{{ USER_PASS | password_hash('sha512') }}"
 
     - name: restart sshd
       service:
