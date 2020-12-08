@@ -1,0 +1,51 @@
+---
+- name: Create sftp user - {{ SFTP_USER }}
+  user:
+    name: "{{ SFTP_USER }}"
+    shell: /bin/false
+    password: "{{ SFTP_USER_PASS | password_hash('sha512') }}"
+
+- name: Create sftp user's directories
+  file:
+    path: /var/{{ SFTP_USER }}/{{ item }}
+    state: directory
+    owner: "{{ SFTP_USER }}"
+    group: "www-data"
+    mode: 0775
+  with_items:
+    - folder1
+    - folder2
+    - folder3
+
+- name: Change /var/{{ SFTP_USER }} ownership to root
+  file:
+    path: /var/{{ SFTP_USER }}/
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Insert/Update "Match User" configuration block in /etc/ssh/sshd_config
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      Match User {{ SFTP_USER }}
+        ForceCommand internal-sftp
+        PasswordAuthentication yes
+        ChrootDirectory /var/{{ SFTP_USER }}
+        PermitTunnel no
+        AllowAgentForwarding no
+        AllowTcpForwarding no
+        X11Forwarding no
+  notify: restart sshd
+
+- name: add www-data user to {{ SFTP_USER }} group
+  user:
+    name: "www-data"
+    groups: "{{ SFTP_USER }}"
+    append: yes
+
+- name: add ubuntu user to {{ SFTP_USER }} group
+  user:
+    name: "ubuntu"
+    groups: "{{ SFTP_USER }}"
+    append: yes

@@ -1,0 +1,10 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    SFTP_USER: CHANGEME_USERNAME
+    SFTP_USER_PASS: CHANGEME_PASSWORD
+        
+  roles:
+    - { role: sftp-user }
