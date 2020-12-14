@@ -1,0 +1,11 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    ansible_distribution_release: bionic
+    php_mod: "apache2"
+    php_upgrade: true
+        
+  roles:
+    - { role: php74 }
