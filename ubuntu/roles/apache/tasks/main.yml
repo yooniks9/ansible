@@ -89,7 +89,23 @@
     
 - name: set folder permission following parent (/var/www)
   shell: chmod -R g+s /var/www
-  
+
+- name: Create apache2 mutex-file.conf
+  template:
+    src: mutex-file.conf.j2
+    dest: /etc/apache2/conf-available/mutex-file.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable mutex config
+  file:
+    src: /etc/apache2/conf-available/mutex-file.conf
+    dest: /etc/apache2/conf-enabled/mutex-file.conf
+    owner: root
+    group: root
+    state: link
+
 - name: change apache2 default user - {{system_user}}
   replace:
     path: /etc/apache2/envvars
