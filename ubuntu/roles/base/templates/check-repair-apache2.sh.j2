@@ -7,6 +7,6 @@ ps auxw | grep /usr/sbin/apache2 | grep -v grep > /dev/null
 
 if [ $? != 0 ]
 then
-        /etc/init.d/apache2 restart > /dev/null
-        echo "[apache2] service is down: $fulldate" >> /srv/logs/services-status.log
+    /etc/init.d/apache2 restart > /dev/null
+    echo "[apache2] service is down: $fulldate" >> /srv/logs/services-status.log
 fi

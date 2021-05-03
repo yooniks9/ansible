@@ -73,6 +73,7 @@
     - check-repair-docker.sh
     - check-repair-mysql.sh
     - check-repair-nginx.sh
+    - check-repair-supervisor.sh
     - schedule-reload-apache2.sh
 
 - name: Recursively change ownership of /srv
