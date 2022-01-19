@@ -11,6 +11,7 @@
     - /srv/memcached
     - /srv/mariadb
     - /srv/mariadb/data
+    - /srv/mariadb/logs
     - /srv/mariadb/scripts
     - /srv/drone/
     - /srv/drone/data
@@ -33,32 +34,19 @@
     mode: 0664
     force: no
 
-- name: Create mariadb backup scripts - hourly
+- name: Create mariadb backup scripts
   template:
-    src: mariadb-hourly.j2
-    dest: /srv/mariadb/scripts/hourly.sh
+    src: "mariadb-{{ item }}.j2"
+    dest: "/srv/mariadb/scripts/{{ item }}.sh"
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0775
     force: no
-
-- name: Create mariadb backup scripts - daily
-  template:
-    src: mariadb-daily.j2
-    dest: /srv/mariadb/scripts/daily.sh
-    owner: "{{ system_user }}"
-    group: "{{ system_user }}"
-    mode: 0775
-    force: no
-
-- name: Create mariadb backup scripts - monthly
-  template:
-    src: mariadb-monthly.j2
-    dest: /srv/mariadb/scripts/monthly.sh
-    owner: "{{ system_user }}"
-    group: "{{ system_user }}"
-    mode: 0775
-    force: no
+  with_items:
+    - hourly
+    - daily
+    - all-daily
+    - monthly
 
 - name: Create memcached templates
   template:
@@ -78,10 +66,19 @@
     mode: 0664
     force: no
     
-- name: Create drone templates
+- name: Create drone github templates
   template:
-    src: drone.j2
-    dest: /srv/drone/docker-compose.yml
+    src: drone-github.j2
+    dest: /srv/drone/github-docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: Create drone bitbucket templates
+  template:
+    src: drone-bitbucket.j2
+    dest: /srv/drone/bitbucket-docker-compose.yml
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664

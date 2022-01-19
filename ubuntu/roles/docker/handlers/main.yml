@@ -1,2 +1,4 @@
 ---
-# handlers file for docker
+- name: restart docker
+  service: "name=docker state={{ docker_restart_handler_state }}"
+  ignore_errors: "{{ ansible_check_mode }}"
