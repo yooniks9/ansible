@@ -1,3 +1,4 @@
 ---
 # defaults file for base
 system_user: ubuntu
+system_timezone: "Asia/Taipei"

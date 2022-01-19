@@ -1,39 +1,11 @@
 ---
-- name: create .ssh directory if they don't exist
-  file:
-    path: /home/{{ system_user }}/.ssh
-    state: directory
-    owner: "{{ system_user }}"
-    group: "{{ system_user }}"
-    mode: 0700
-
-- name: Add users public key to authorized
-  template:
-    src: authorized_keys.j2
-    dest: /home/{{ system_user }}/.ssh/authorized_keys
-    owner: "{{ system_user }}"
-    group: "{{ system_user }}"
-    mode: 0600
-
-- name: (root)create .ssh directory if they don't exist
-  file:
-    path: /root/.ssh
-    state: directory
-    owner: "root"
-    group: "root"
-    mode: 0700
-   
-- name: (root)Add users public key to authorized
-  template:
-    src: authorized_keys.j2
-    dest: /root/.ssh/authorized_keys
-    owner: "root"
-    group: "root"
-    mode: 0600
-    
-- name: Set timezone to Asia/Taipei
-  timezone:
-    name: Asia/Taipei
+- name: Update all packages to the latest version
+  apt:
+    update_cache: yes
+    upgrade: dist
+    autoclean: yes
+    autoremove: yes
+    force_apt_get: yes
 
 - name: Install apts - software-properties-common,zip,unzip,mysql-client
   apt:
@@ -42,8 +14,28 @@
       - software-properties-common
       - unzip
       - mysql-client
+      - acl
     state: present
     force_apt_get: yes
+
+- name: Setting timezone
+  timezone:
+    name: "{{ system_timezone }}"
+
+- name: create .ssh directory if they don't exist
+  file:
+    path: /home/{{ system_user }}/.ssh
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0700
+
+- name: Set up multiple authorized keys
+  ansible.posix.authorized_key:
+    user: "{{ system_user }}"
+    state: present
+    key: '{{ item }}'
+  with_file: "{{ ssh_authorized_keys_file }}"
 
 - name: Create /srv/logs directory
   file:
@@ -98,7 +90,7 @@
     recurse: yes
     owner: www-data
     group: www-data
-    mode: 0775
+    mode: 2775
 
 - name: Create Motd file
   file:
