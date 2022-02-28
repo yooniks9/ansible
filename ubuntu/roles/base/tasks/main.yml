@@ -67,6 +67,17 @@
     - check-repair-nginx.sh
     - check-repair-supervisor.sh
     - schedule-reload-apache2.sh
+    - kill-job.sh
+
+- name: Kill jobs list
+  template:
+    src: "{{ item }}.j2"
+    dest: "/srv/scripts/{{ item }}"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+  with_items:
+    - kill-job.list
 
 - name: Recursively change ownership of /srv
   file:
@@ -99,11 +110,3 @@
     owner: root
     group: root
     mode: 0644
-
-- name: Add user to sudoer
-  template:
-    src: init-user.j2
-    dest: /etc/sudoers.d/{{ system_user }}-init-user
-    owner: "root"
-    group: "root"
-    mode: 0660

@@ -125,3 +125,9 @@
     name: Check & Repair apache2 service every 5 mins
     job: "/srv/scripts/check-repair-apache2.sh  > /dev/null 2>&1"
     minute: "*/5"
+
+- name: Restart apache2 weekly for reload SSL
+  cron:
+    name: Restart apache2 weekly
+    job: "/etc/init.d/apache2 restart > /dev/null 2 > &1"
+    weekday: "6"

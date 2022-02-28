@@ -1,0 +1,3 @@
+[submodule "ubuntu/roles/podman"]
+	path = ubuntu/roles/podman
+	url = git@github.com:alvistack/ansible-role-podman.git
