@@ -4,7 +4,7 @@ services:
 
   db:
     container_name: mariadb
-    image: mariadb:10.2
+    image: mariadb:{{ mysql_version }}
     restart: always
     ports:
       - 3306:3306

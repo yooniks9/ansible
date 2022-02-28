@@ -47,3 +47,9 @@
     name: Check & Repair docker service every 5 mins
     job: "/srv/scripts/check-repair-docker.sh  > /dev/null 2>&1"
     minute: "*/5"
+
+- name: check docker status prevent idle
+  cron:
+    name: check docker status prevent idle
+    job: "/usr/bin/docker ps > /dev/null 2>&1"
+    minute: "*/5"
