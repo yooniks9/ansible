@@ -24,7 +24,6 @@
         Allow from all
     </Directory>
 #RewriteEngine on
-#RewriteCond %{SERVER_NAME} ={{ domain }} [OR]
-#RewriteCond %{SERVER_NAME} =www.{{ domain }}
+#RewriteCond %{HTTPS} off
 #RewriteRule ^ https://www.{{ domain }}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>

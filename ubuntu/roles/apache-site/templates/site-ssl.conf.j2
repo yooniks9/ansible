@@ -24,8 +24,7 @@ ServerAlias {{ subdomain }}
         Allow from all
     </Directory>
 #RewriteEngine on
-#RewriteCond %{SERVER_NAME} ={{ domain }} [OR]
-#RewriteCond %{SERVER_NAME} =www.{{ domain }}
+#RewriteCond %{HTTPS} off
 #RewriteRule ^ https://www.{{ domain }}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
 
@@ -72,7 +71,6 @@ ServerAlias {{ subdomain }}
         Require all denied
     </FilesMatch>
 
-Include /etc/letsencrypt/options-ssl-apache.conf
 SSLCertificateFile /etc/letsencrypt/live/{{ domain }}/fullchain.pem
 SSLCertificateKeyFile /etc/letsencrypt/live/{{ domain }}/privkey.pem
 </VirtualHost>

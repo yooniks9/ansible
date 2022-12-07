@@ -1,0 +1,23 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    system_user: "ubuntu"
+    mysql_password: "fPnFCoS03gO18AlL"
+    ssh_authorized_keys_file:
+      - public_keys/roy
+      - public_keys/hsiang
+      - public_keys/everpads-hububble-dev
+
+  roles:
+    - { role: base }
+    - { role: swapfile }
+    - { role: shell }
+    - { role: apache }
+    - { role: letsencrypt }
+    # - { role: php }
+    # - { role: php74 }
+    # - { role: composer } # depends_on: php
+    # - { role: nodejs, ansible_os_family: Debian }
+    # - { role: apache-site }

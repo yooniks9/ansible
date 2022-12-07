@@ -1,8 +1,9 @@
 ---
-- name: Install apts - apache2
+- name: Install apts - apache2 & letsencrypt
   apt:
     name: 
       - apache2
+      - python3-certbot-apache
     state: present
     force_apt_get: yes
 

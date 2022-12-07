@@ -29,7 +29,7 @@
 
 - name: Disable apache2 php mods
   apache2_module: 
-    name: php7.2
+    name: php
     state: absent
   when: php_mod == "fpm"
 
@@ -65,17 +65,17 @@
     group: www-data
     mode: 0664
 
-- name: Copy php.ini to /etc/php/7.2/{{ php_mod }}/
+- name: Copy php.ini to /etc/php/8.1/{{ php_mod }}/
   template:
     src: php.ini.j2
-    dest: /etc/php/7.2/{{ php_mod }}/php.ini
+    dest: /etc/php/8.1/{{ php_mod }}/php.ini
     owner: root
     group: root
     mode: 0664
 
 - name: Enable apache2 php-fpm mods
-  command: a2enconf php7.2-fpm
+  command: a2enconf php8.1-fpm
   when: php_mod == "fpm"
   notify: 
     - restart apache2
-    - restart php7.2-fpm
+    - restart php8.1-fpm

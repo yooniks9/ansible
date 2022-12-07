@@ -28,35 +28,22 @@
       - php7.4-memcache
       - php7.4-memcached
       - libapache2-mod-php7.4
+      - libapache2-mod-fcgid
     state: present
     force_apt_get: yes
 
-- name: Disable apache2 php mods
-  apache2_module: 
-    name: php7.4
-    state: absent
-  when: php_mod == "fpm"
-
-- name: Disable apache2 mpm_prefork mods
-  command: a2dismod mpm_prefork
-  when: php_mod == "fpm"
-
-- name: Enable apache2 mpm_event mods
-  command: a2enmod mpm_event
-  when: php_mod == "fpm"
-  notify: restart apache2
-
-- name: Enable apache2 proxy_fcgi mods
-  apache2_module: 
-    name: proxy_fcgi
-    state: present
-  when: php_mod == "fpm"
-
-- name: Enable apache2 setenvif mods
-  apache2_module: 
-    name: setenvif
-    state: present
-  when: php_mod == "fpm"
+# - name: Enable the Apache2 module proxy_fcgi, setenvif, proxy
+#   when: php_mod == "fpm"
+#   community.general.apache2_module:
+#     state: present
+#     name: "{{ item }}"
+#   with_items:
+#     - proxy_fcgi
+#     - setenvif
+#     - proxy
+#   notify: 
+#     - restart apache2
+#     - restart fpm
 
 - name: Enable php opcache mods
   command: phpenmod opcache
@@ -82,18 +69,15 @@
   when: php_mod == "fpm"
   notify: 
     - restart apache2
-    - restart php7.4-fpm
-
-- name: Disable apache2 php 7.2 mods
-  apache2_module: 
-    name: php7.2
-    state: absent
-  when: php_upgrade == true
+    - restart fpm
 
 - name: Enable apache2 php 7.4 mods
+  when: php_mod == "apache2"
   apache2_module: 
     name: php7.4
     state: present
-  when: php_upgrade == true
   notify: 
     - restart apache2
+
+- name: Set update default php7.4
+  ansible.builtin.command: update-alternatives --set php /usr/bin/php7.4

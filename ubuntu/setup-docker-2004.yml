@@ -1,0 +1,9 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    system_user: "ubuntu"
+
+  roles:
+    - { role: docker, ansible_os_family: Debian, ansible_distribution: Ubuntu, docker_compose_version: "1.29.2", ansible_distribution_version: "20.04", ansible_distribution_release: "bionic" }

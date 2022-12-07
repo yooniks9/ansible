@@ -1,14 +1,16 @@
 ---
-- name: add certbot repo
-  apt_repository:
-    repo: 'ppa:certbot/certbot'
+- name: Install "certbot" with option --classic
+  snap:
+    name: certbot
+    classic: yes
 
-- name: Install apts - Certbot Apache
-  apt:
-    name: python-certbot-apache
-    state: present
-    update_cache: yes
-    force_apt_get: yes
+- name: create /etc/letsencrypt directory if they don't exist
+  file:
+    path: /etc/letsencrypt
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
 
 - name: Copy apache2 options-ssl-apache.conf
   template:
