@@ -13,8 +13,12 @@
     - /srv/mariadb/data
     - /srv/mariadb/logs
     - /srv/mariadb/scripts
-    - /srv/drone/
+    - /srv/drone
     - /srv/drone/data
+    - /srv/mongodb
+    - /srv/mongodb/data
+    - /srv/postgresql
+    - /srv/postgresql/data
 
 - name: Create mariadb templates
   template:
@@ -97,6 +101,24 @@
   template:
     src: drone.yml.j2
     dest: /srv/drone/laravel.drone.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: Create mongodb templates
+  template:
+    src: mongodb.j2
+    dest: /srv/mongodb/docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: Create postgresql templates
+  template:
+    src: postgresql.j2
+    dest: /srv/postgresql/docker-compose.yml
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664

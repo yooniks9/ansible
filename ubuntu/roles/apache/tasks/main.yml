@@ -132,3 +132,20 @@
     name: Restart apache2 weekly
     job: "/etc/init.d/apache2 restart > /dev/null 2 > &1"
     weekday: "6"
+
+- name: create /etc/letsencrypt directory if they don't exist
+  file:
+    path: /etc/letsencrypt
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0775
+
+- name: Copy apache2 options-ssl-apache.conf
+  template:
+    src: options-ssl-apache.conf.j2
+    dest: /etc/letsencrypt/options-ssl-apache.conf
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no

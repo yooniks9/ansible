@@ -38,3 +38,5 @@ docker_users: [ubuntu]
 docker_daemon_options: {}
 
 mysql_password: eTAfo0eR9V6B9sRVZ0zM
+sql_user: myrootuser
+sql_pass: tkqlpkINc7Uf2Emt

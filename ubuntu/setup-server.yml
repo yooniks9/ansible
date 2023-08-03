@@ -4,15 +4,21 @@
   become: True
   vars:
     system_user: "ubuntu"
+    system_timezone: "Asia/Taipei"
     user_pass: "nvsZf8GrYFpGfDUmQ"
-    ansible_distribution_release: bionic
+    ansible_distribution_release: jammy
     swapfile_size: 2GB
     php_mod: "apache2"
-    mysql_password: "7XD4-1A0hb-zw5-SQL"
+    sql_pass: "A4niENMeF4bBE6hZ"
     domain: YOURDOMAINNAME.com
     subdomain: www.YOURDOMAINNAME.com
     ssl: True
     email: support@YOURDOMAINNAME.com
+    php_upgrade: True
+    ssh_authorized_keys_file:
+      - public_keys/roy
+      - public_keys/hsiang
+      - public_keys/hububble-dev
 
   pre_tasks:
     - name: Update all packages to the latest version
@@ -27,18 +33,18 @@
         name: Asia/Taipei
         
   roles:
-    # - { role: user }
+    - { role: user }
     - { role: base }
     - { role: swapfile }
     - { role: shell }
     - { role: apache }
+    # - { role: nginx }
     # - { role: php }
     # - { role: php5 }
-    - { role: php73 }
-    - { role: composer }
-    - { role: docker }
+    # - { role: php74 }
+    # - { role: composer }
     # - { role: mariadb }
     # - { role: letsencrypt }
-    # - { role: nodejs, ansible_os_family: Debian }
+    - { role: docker, ansible_os_family: Debian, ansible_distribution: Ubuntu, docker_compose_version: "1.29.2", ansible_distribution_version: "22.04", ansible_distribution_release: "jammy" }
     # - { role: proxmox }
     # - { role: apache-site }

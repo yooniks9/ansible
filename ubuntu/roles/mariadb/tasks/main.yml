@@ -27,4 +27,4 @@
 - name: Update motd
   lineinfile:
     path: /etc/motd
-    line: "Mysql Password: {{ mysql_password }}"
+    line: "Mysql Password: {{ sql_pass }}"

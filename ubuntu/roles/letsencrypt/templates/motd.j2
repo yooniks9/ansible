@@ -1,7 +1,7 @@
 ----------------
 # Create & install SSL for domains
-sudo certbot certonly --webroot --webroot-path /var/www/webroot --renew-by-default -d domain.com
+sudo certbot certonly --webroot --webroot-path /var/www/webroot --register-unsafely-without-email --renew-by-default -d domain.com
 
 # MySQL login
-mysql -uroot -p{{ mysql_password }} -h127.0.0.1
+mysql -uroot -p{{ sql_pass }} -h127.0.0.1
 ================

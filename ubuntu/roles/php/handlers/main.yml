@@ -4,7 +4,7 @@
     name: apache2
     state: restarted
 
-- name: restart php7.2-fpm
+- name: restart php-fpm
   service:
-    name: php7.2-fpm
+    name: php-fpm
     state: restarted
