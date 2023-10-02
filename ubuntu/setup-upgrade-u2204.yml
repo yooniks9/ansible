@@ -1,0 +1,15 @@
+---
+- hosts: vm
+  gather_facts: False
+  become: True
+  vars:
+    system_user: "ubuntu"
+    sql_pass: "gNit8i9ftklhUhBtXEji"
+    ssh_authorized_keys_file:
+      - public_keys/roy
+      - public_keys/hsiang
+      # - public_keys/everpads-hububble-dev
+
+  tasks:
+    - name: Upgrading Software
+      shell: do-release-upgrade -f DistUpgradeViewNonInteractive

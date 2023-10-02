@@ -41,10 +41,10 @@
     # - { role: nginx }
     # - { role: php }
     # - { role: php5 }
-    # - { role: php74 }
-    # - { role: composer }
+    - { role: php74 }
+    - { role: composer }
     # - { role: mariadb }
-    # - { role: letsencrypt }
-    - { role: docker, ansible_os_family: Debian, ansible_distribution: Ubuntu, docker_compose_version: "1.29.2", ansible_distribution_version: "22.04", ansible_distribution_release: "jammy" }
+    - { role: letsencrypt }
+    - { role: docker, ansible_os_family: Debian, ansible_distribution: Ubuntu, docker_compose_version: "2.20.3", ansible_distribution_version: "22.04", ansible_distribution_release: "jammy" }
     # - { role: proxmox }
     # - { role: apache-site }

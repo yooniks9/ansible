@@ -6,4 +6,4 @@
     system_user: "ubuntu"
 
   roles:
-    - { role: docker, ansible_os_family: Debian, ansible_distribution: Ubuntu, docker_compose_version: "1.29.2", ansible_distribution_version: "22.04", ansible_distribution_release: "focal" }
+    - { role: docker, ansible_os_family: Debian, ansible_distribution: Ubuntu, docker_compose_version: "2.20.3", ansible_distribution_version: "22.04", ansible_distribution_release: "jammy" }

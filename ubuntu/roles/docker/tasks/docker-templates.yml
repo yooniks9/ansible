@@ -19,6 +19,9 @@
     - /srv/mongodb/data
     - /srv/postgresql
     - /srv/postgresql/data
+    - /srv/php
+    - /srv/php/config
+    - /srv/php/webroot
 
 - name: Create mariadb templates
   template:
@@ -119,6 +122,78 @@
   template:
     src: postgresql.j2
     dest: /srv/postgresql/docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create php templates
+  template:
+    src: php.j2
+    dest: /srv/php/docker-compose.yml
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create 000-default.conf
+  template:
+    src: php-000-default.conf.j2
+    dest: /srv/php/config/000-default.conf
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create custom.ini
+  template:
+    src: php-custom.ini.j2
+    dest: /srv/php/config/custom.ini
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create default-ssl.conf
+  template:
+    src: php-default-ssl.conf.j2
+    dest: /srv/php/config/default-ssl.conf
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create htaccess-wordpress
+  template:
+    src: php-htaccess-wordpress.j2
+    dest: /srv/php/config/htaccess-wordpress
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create proxy-apache-example.conf
+  template:
+    src: php-proxy-apache-example.conf.j2
+    dest: /srv/php/config/proxy-apache-example.conf
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create proxy-nginx-example.conf
+  template:
+    src: php-proxy-nginx-example.conf.j2
+    dest: /srv/php/config/proxy-nginx-example.conf
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0664
+    force: no
+
+- name: (PHP)Create wp-config.php
+  template:
+    src: php-wp-config.php.j2
+    dest: /srv/php/config/wp-config.php
     owner: "{{ system_user }}"
     group: "{{ system_user }}"
     mode: 0664
